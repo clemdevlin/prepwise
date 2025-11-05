@@ -19,6 +19,7 @@ import { Button } from "@/components/ui/button";
 
 import { signIn, signUp } from "@/lib/actions/auth.action";
 import FormField from "./FormField";
+import { cn } from "../lib/utils";
 
 const authFormSchema = (type: FormType) => {
   return z.object({
@@ -96,6 +97,7 @@ const AuthForm = ({ type }: { type: FormType }) => {
   };
 
   const isSignIn = type === "sign-in";
+  const isLoading = form.formState.isSubmitting;
 
   return (
     <div className="card-border lg:min-w-[566px]">
@@ -138,7 +140,15 @@ const AuthForm = ({ type }: { type: FormType }) => {
               type="password"
             />
 
-            <Button className="btn" type="submit">
+            <Button
+              className={cn(
+                "btn",
+                isLoading && "animate-pulse",
+                "disabled:bg-primary-100"
+              )}
+              type="submit"
+              disabled={isLoading}
+            >
               {isSignIn ? "Sign In" : "Create an Account"}
             </Button>
           </form>
